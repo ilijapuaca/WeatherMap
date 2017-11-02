@@ -17,17 +17,20 @@ class CurrentLocationWeatherViewController: UIViewController {
     /// Network manager that'll be used for network operations.
     private let networkManager = WeatherNetworkManager()
 
-    /// Desired accuracy in meters. Less accurate locations will be discarded.
-    /// NOTE: It is super rare that we get a location accurate within <= 10 meters indoors.
-    /// Setting this to anything less than 16 would rarely provide any usable results.
-    /// NOTE: For devices without GPS chip, set the accuracy to a larger value as we will never get really precise location.
-    var desiredAccuracy = CLLocationManager.deferredLocationUpdatesAvailable() ? 64.0 : 100.0
+    /// Weather info cache to be used for caching/retrieving weather info data.
+    private let weatherInfoCache = WeatherInfoCache.default
 
     /// Location manager instance used to fetch the location.
     private var locationManager: CLLocationManager!
 
     /// Location for which the weather is being shown for currently.
     private var currentWeatherLocation: CLLocation?
+
+    /// Desired accuracy in meters. Less accurate locations will be discarded.
+    /// NOTE: It is super rare that we get a location accurate within <= 10 meters indoors.
+    /// Setting this to anything less than 16 would rarely provide any usable results.
+    /// NOTE: For devices without GPS chip, set the accuracy to a larger value as we will never get really precise location.
+    private var desiredAccuracy = CLLocationManager.deferredLocationUpdatesAvailable() ? 64.0 : 100.0
 
     /// Distance in meters that needs to be crossed in order for weather data to be updated again.
     private var locationUpdateThreshold = 1000.0
@@ -37,19 +40,13 @@ class CurrentLocationWeatherViewController: UIViewController {
 
     // MARK: - Outlets
 
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var mapOverlayView: UIView! {
+    @IBOutlet weak var mapView: MKMapView! {
         didSet {
-            // TODO: Figure out whether I can make this work
-            /*
-            let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(onLocationSelected(_:)))
-            mapOverlayView.addGestureRecognizer(longPressRecognizer)
-             */
-
             let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(onLocationSelected(_:)))
+            doubleTapRecognizer.delegate = self
             doubleTapRecognizer.numberOfTapsRequired = 2
             doubleTapRecognizer.numberOfTouchesRequired = 1
-            mapOverlayView.addGestureRecognizer(doubleTapRecognizer)
+            mapView.addGestureRecognizer(doubleTapRecognizer)
         }
     }
     @IBOutlet weak var weatherInfoView: WeatherInfoView!
@@ -100,8 +97,20 @@ class CurrentLocationWeatherViewController: UIViewController {
     }
 
     private func updateWeatherData(location: CLLocation) {
+        if let cachedWeatherInfo = weatherInfoCache.retrieve(location: location.coordinate) {
+            DispatchQueue.main.async {
+                self.weatherInfoView.show(weatherInfo: cachedWeatherInfo)
+            }
+
+            return
+        }
+
         // TODO: Show some kind of loading indicator
-        networkManager.fetchWeatherInfo(coordinate: location.coordinate) { (weatherInfo, error) in
+        networkManager.fetchWeatherInfo(coordinate: location.coordinate) { [weak self] (weatherInfo, error) in
+            guard let `self` = self else {
+                return
+            }
+
             if error != nil {
                 // This is obviously a very poor way of handling this. Should be shown in a nicer way and the case when there is no
                 // internet connectivity should be handled separately
@@ -114,8 +123,11 @@ class CurrentLocationWeatherViewController: UIViewController {
                 return
             }
 
-            DispatchQueue.main.async {
-                self.weatherInfoView.show(weatherInfo: weatherInfo!)
+            if let weatherInfo = weatherInfo {
+                DispatchQueue.main.async {
+                    self.weatherInfoCache.add(weatherInfo)
+                    self.weatherInfoView.show(weatherInfo: weatherInfo)
+                }
             }
         }
     }
@@ -194,9 +206,21 @@ extension CurrentLocationWeatherViewController: MKMapViewDelegate {
         }
 
         // Center the initial user location
-        // TODO: Setting zoom level seems to be a bit of hustle for MKMapView
-        mapView.setCenter(userLocation.coordinate, animated: true)
+        let region = MKCoordinateRegion(center: userLocation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+        mapView.setRegion(region, animated: true)
+
         initialLocationSet = true
+    }
+
+}
+
+extension CurrentLocationWeatherViewController: UIGestureRecognizerDelegate {
+
+    // MARK: - UIGestureRecognizerDelegate implementation
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Our gesture recognizer must take priority over default MKMapView one
+        return true
     }
 
 }

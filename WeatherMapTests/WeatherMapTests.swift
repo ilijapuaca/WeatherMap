@@ -7,30 +7,21 @@
 //
 
 import XCTest
+import MapKit
 @testable import WeatherMap
 
 class WeatherMapTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    func testWeatherInfoCache() {
+        let userDefaults = UserDefaults()
+        let weatherInfoCache = WeatherInfoCache(userDefaults: userDefaults)
+
+        let coordinates = CLLocationCoordinate2D(latitude: 44.82, longitude: 22.123)
+        let weatherInfo = WeatherInfo(location: coordinates, locationName: "Test", currentTemperature: 11.11, minTemperature: 22.22, maxTemperature: 33.33)
+        weatherInfoCache.add(weatherInfo)
+
+        let retrievedWeatherInfo = weatherInfoCache.retrieve(location: coordinates)
+        XCTAssertNotNil(retrievedWeatherInfo, "WeatherInfo instance should not be nil as it exists in cache")
     }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+
 }

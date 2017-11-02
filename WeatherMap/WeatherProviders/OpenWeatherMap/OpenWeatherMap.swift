@@ -8,7 +8,10 @@
 
 import Foundation
 
+/// OpenWeatherMap specific weather provider.
 class OpenWeatherMap: WeatherProvider {
+
+    // MARK: - WeatherProvider implementation
 
     var networkUtility: WeatherProviderNetworkUtility {
         // TODO: These should be cached

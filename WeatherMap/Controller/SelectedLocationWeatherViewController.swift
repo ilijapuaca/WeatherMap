@@ -20,6 +20,9 @@ class SelectedLocationWeatherViewController: UIViewController {
     /// Network manager that'll be used for networking operations.
     private let networkManager = WeatherNetworkManager()
 
+    /// Weather info cache to be used for caching/retrieving weather info data.
+    private let weatherInfoCache = WeatherInfoCache.default
+
     // MARK: - Outlets
 
     @IBOutlet weak var mapView: MKMapView!
@@ -33,14 +36,14 @@ class SelectedLocationWeatherViewController: UIViewController {
         if let location = location {
             updateWeatherData(location: location)
 
-            mapView.setCenter(location.coordinate, animated: false)
-
             // Add a pin to the map
             let locationPin = MKPointAnnotation()
             locationPin.coordinate = location.coordinate
             mapView.addAnnotation(locationPin)
 
-            // TODO: Zoom on to locationPin coordinates
+            // Center/zoom locationPin coordinates
+            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+            mapView.setRegion(region, animated: false)
         }
     }
 
@@ -52,8 +55,20 @@ class SelectedLocationWeatherViewController: UIViewController {
     // MARK: - Utility methods
 
     private func updateWeatherData(location: CLLocation) {
+        if let cachedWeatherInfo = weatherInfoCache.retrieve(location: location.coordinate) {
+            DispatchQueue.main.async {
+                self.weatherInfoView.show(weatherInfo: cachedWeatherInfo)
+            }
+
+            return
+        }
+
         // TODO: Show some kind of loading indicator
-        networkManager.fetchWeatherInfo(coordinate: location.coordinate) { (weatherInfo, error) in
+        networkManager.fetchWeatherInfo(coordinate: location.coordinate) { [weak self] (weatherInfo, error) in
+            guard let `self` = self else {
+                return
+            }
+            
             if error != nil {
                 // This is obviously a very poor way of handling this. Should be shown in a nicer way and the case when there is no
                 // internet connectivity should be handled separately
@@ -66,8 +81,11 @@ class SelectedLocationWeatherViewController: UIViewController {
                 return
             }
 
-            DispatchQueue.main.async {
-                self.weatherInfoView.show(weatherInfo: weatherInfo!)
+            if let weatherInfo = weatherInfo {
+                DispatchQueue.main.async {
+                    self.weatherInfoCache.add(weatherInfo)
+                    self.weatherInfoView.show(weatherInfo: weatherInfo)
+                }
             }
         }
     }
