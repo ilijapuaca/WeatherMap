@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="anR-pd-g35">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Current Location Weather View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="CurrentLocationWeatherViewController" customModule="WeatherMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="616-aU-6jd">
+                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <subviews>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pQH-dr-18j">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="540"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="1fg-WK-929"/>
+                                        </connections>
+                                    </mapView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u0V-Fk-iLc">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="540"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n4x-WJ-fPV" customClass="WeatherInfoView" customModule="WeatherMap" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="520" width="375" height="250"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="250" id="ah3-SG-Kje"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="n4x-WJ-fPV" firstAttribute="top" secondItem="pQH-dr-18j" secondAttribute="bottom" constant="-20" id="8Fm-0l-uqF"/>
+                                    <constraint firstItem="n4x-WJ-fPV" firstAttribute="trailing" secondItem="pQH-dr-18j" secondAttribute="trailing" id="Hnl-Zh-PDS"/>
+                                    <constraint firstItem="u0V-Fk-iLc" firstAttribute="leading" secondItem="pQH-dr-18j" secondAttribute="leading" id="JDu-ce-I1a"/>
+                                    <constraint firstItem="pQH-dr-18j" firstAttribute="top" secondItem="616-aU-6jd" secondAttribute="top" id="JJG-i0-LwF"/>
+                                    <constraint firstItem="pQH-dr-18j" firstAttribute="leading" secondItem="616-aU-6jd" secondAttribute="leading" id="Kpt-a3-pik"/>
+                                    <constraint firstAttribute="bottom" secondItem="n4x-WJ-fPV" secondAttribute="bottom" id="W1E-xP-zoa"/>
+                                    <constraint firstAttribute="trailing" secondItem="pQH-dr-18j" secondAttribute="trailing" id="Wk2-54-x1V"/>
+                                    <constraint firstItem="u0V-Fk-iLc" firstAttribute="trailing" secondItem="pQH-dr-18j" secondAttribute="trailing" id="WuM-Ol-h4T"/>
+                                    <constraint firstItem="n4x-WJ-fPV" firstAttribute="leading" secondItem="pQH-dr-18j" secondAttribute="leading" id="aam-03-K5D"/>
+                                    <constraint firstItem="u0V-Fk-iLc" firstAttribute="bottom" secondItem="pQH-dr-18j" secondAttribute="bottom" id="bWm-aB-3uY"/>
+                                    <constraint firstItem="pQH-dr-18j" firstAttribute="width" secondItem="616-aU-6jd" secondAttribute="width" id="e1a-gI-iWV"/>
+                                    <constraint firstItem="pQH-dr-18j" firstAttribute="height" secondItem="616-aU-6jd" secondAttribute="height" constant="-150" id="paM-f3-dZd"/>
+                                    <constraint firstItem="u0V-Fk-iLc" firstAttribute="top" secondItem="pQH-dr-18j" secondAttribute="top" id="yZx-EA-8lH"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.35224390030000002" green="0.60870403049999999" blue="0.93665635589999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="616-aU-6jd" secondAttribute="bottom" id="4L4-bP-GF8"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="616-aU-6jd" secondAttribute="trailing" id="InM-Bt-IWf"/>
+                            <constraint firstItem="616-aU-6jd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="pea-8q-YMM"/>
+                            <constraint firstItem="616-aU-6jd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qCh-Nn-5ip"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="pSn-mE-W4A">
+                        <barButtonItem key="backBarButtonItem" title=" " id="euH-ok-nCG"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapOverlayView" destination="u0V-Fk-iLc" id="HYE-qU-ViI"/>
+                        <outlet property="mapView" destination="pQH-dr-18j" id="do3-kX-9kQ"/>
+                        <outlet property="weatherInfoView" destination="n4x-WJ-fPV" id="JAd-1K-X7y"/>
+                        <segue destination="19v-hs-vbP" kind="show" identifier="ShowWeather" id="luI-Wx-EJF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="482.39999999999998" y="132.26600985221674"/>
+        </scene>
+        <!--Location Weather-->
+        <scene sceneID="IbT-mJ-lWv">
+            <objects>
+                <viewController id="19v-hs-vbP" customClass="SelectedLocationWeatherViewController" customModule="WeatherMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gfq-nt-uLe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pah-xX-qWB">
+                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <subviews>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4L7-cE-Vom">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="540"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="I31-z1-PiN"/>
+                                        </connections>
+                                    </mapView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ydr-39-G8d" customClass="WeatherInfoView" customModule="WeatherMap" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="520" width="375" height="250"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="250" id="lfp-Eg-vhY"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="4L7-cE-Vom" firstAttribute="leading" secondItem="Pah-xX-qWB" secondAttribute="leading" id="5Br-C3-unF"/>
+                                    <constraint firstItem="ydr-39-G8d" firstAttribute="top" secondItem="4L7-cE-Vom" secondAttribute="bottom" constant="-20" id="7K7-LA-yUF"/>
+                                    <constraint firstAttribute="trailing" secondItem="4L7-cE-Vom" secondAttribute="trailing" id="7gp-sM-7IL"/>
+                                    <constraint firstItem="4L7-cE-Vom" firstAttribute="top" secondItem="Pah-xX-qWB" secondAttribute="top" id="AsX-ei-dUO"/>
+                                    <constraint firstItem="ydr-39-G8d" firstAttribute="trailing" secondItem="4L7-cE-Vom" secondAttribute="trailing" id="EJg-Wf-59k"/>
+                                    <constraint firstItem="4L7-cE-Vom" firstAttribute="width" secondItem="Pah-xX-qWB" secondAttribute="width" id="VcZ-lW-KKK"/>
+                                    <constraint firstItem="4L7-cE-Vom" firstAttribute="height" secondItem="Pah-xX-qWB" secondAttribute="height" constant="-150" id="XqC-M1-c8b"/>
+                                    <constraint firstAttribute="bottom" secondItem="ydr-39-G8d" secondAttribute="bottom" id="k6o-sL-w6g"/>
+                                    <constraint firstItem="ydr-39-G8d" firstAttribute="leading" secondItem="4L7-cE-Vom" secondAttribute="leading" id="rCF-Hj-U64"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ssd-2t-hLe" firstAttribute="bottom" secondItem="Pah-xX-qWB" secondAttribute="bottom" id="5HR-3A-3ds"/>
+                            <constraint firstItem="Ssd-2t-hLe" firstAttribute="trailing" secondItem="Pah-xX-qWB" secondAttribute="trailing" id="PT1-NR-LrO"/>
+                            <constraint firstItem="Ssd-2t-hLe" firstAttribute="top" secondItem="Pah-xX-qWB" secondAttribute="top" id="e0h-VN-IFz"/>
+                            <constraint firstItem="Pah-xX-qWB" firstAttribute="leading" secondItem="Ssd-2t-hLe" secondAttribute="leading" id="tyu-H4-Rsd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ssd-2t-hLe"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Location Weather" id="h6Z-bu-7a3"/>
+                    <connections>
+                        <outlet property="mapView" destination="4L7-cE-Vom" id="xt1-O3-ztQ"/>
+                        <outlet property="weatherInfoView" destination="ydr-39-G8d" id="JGW-IY-c7o"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xUd-Iv-4Bu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1311" y="132"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4Np-rt-Qfi">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="anR-pd-g35" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sT7-It-fCL">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.35224390030000002" green="0.60870403049999999" blue="0.93665635589999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="A8i-JG-HzF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7SN-2O-coD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-298" y="132"/>
+        </scene>
+    </scenes>
+</document>

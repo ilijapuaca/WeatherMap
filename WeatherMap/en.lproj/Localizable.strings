@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  WeatherMap
+
+  Created by Ilija Puaca on 2/11/17.
+  Copyright © 2017 Authentic Company. All rights reserved.
+*/
+
+// Generic strings
+"OK" = "OK";
+"GENERIC_ERROR_TITLE" = "Error";
+
+// Network related strings
+"GENERIC_FETCH_ERROR_DETAILS" = "An error has occured while fetching the data. Please try again";
